@@ -11,7 +11,7 @@ class Message:
         self.date = {"day": datetime.now().day,
                      "month": datetime.now().month,
                      "year": datetime.now().year}
-        print(content)
+
 
     def __repr__(self):
         return (f"the message sender is {self.sender}\n"
@@ -90,7 +90,7 @@ class GroupChat:
 
     def add_user(self, user):
         self.users.append(user)
-        print(f"the user {self.name} has been added to the group")
+        print(f"the user {user.username} has been added to the group {self.name}")
     def set_mid_age(self):
         self.mid_age = self._calculate_mid_age()
 
@@ -99,7 +99,7 @@ class GroupChat:
 
     def remove_user(self, user):
         self.users.remove(user)
-        print(f"the user {self.name} has been removed from the group")
+        print(f"the user {user.username} has been removed from the group")
 
 
 class User:
@@ -136,12 +136,12 @@ class User:
     def join_group(self,group):
         self.groups.append(group)
     def print_user_info(self):
-        print(f"the users gender is {self.GENDER}\n"
-              f"his age is {self.age}\n"
-              f"his nickname is {self.nickname}\n"
-              f"his username is {self.username}\n"
-              f"his number is {self.number}\n"
-              f"his id is {self.user_id}")
+        print(f"Gender: {self.GENDER}\n"
+              f"Age: {self.age}\n"
+              f"Nickname: {self.nickname}\n"
+              f"Username: {self.username}\n"
+              f"Phone Number: {self.number}\n"
+              f"Id: {self.user_id}")
 
 
 
@@ -155,7 +155,7 @@ def main():
     user3 = User("M", 17, "idan789", "Idan", "0503333333", 3)
 
     # יצירת קבוצה
-    group = GroupChat("Movie Night", [user1, user2, user3], ["bad word"], "WhatsApp")
+    group = GroupChat("Movie Night", [user1, user2, user3], forbidden_list, "WhatsApp")
 
     # המשתמשים מצטרפים לקבוצה
     user1.join_group(group)
@@ -174,11 +174,12 @@ def main():
     msg5 = user2.send_message("אני זורם", group.get_name())
 
     # עידן מתעצבן
-    msg6 = user3.send_message("די כבר אתם לא מחליטים! bad word", group.get_name())
-    for message in messages:
-        print(message)
+    msg6 = user3.send_message("די כבר אתם לא מחליטים! badword1", group.get_name())
 
-    if msg6.check_for_bad_words(group.get_forbidden_words()):
-        print("⚠️ אזהרה: נמצאה מילה אסורה בהודעה!")
-    group = GroupChat("Movie Night", [user1, user2, user3], forbidden_list, "WhatsApp")
+    for message in messages:
+        if message.check_for_bad_words(group.get_forbidden_words()):
+            print(f"🚫 [הודעה מ-{message.get_sender()} נחסמה]")
+        else:
+            print(message)
+
 main()
