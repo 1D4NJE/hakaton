@@ -147,6 +147,8 @@ class User:
 
 
 def main():
+    forbidden_list = ["badword1", "badword2", "badword3", "badword4", "badword5",
+                      "badword6", "badword7", "badword8", "badword9", "badword10"]
     # יצירת משתמשים
     user1 = User("M", 17, "alon123", "Alon", "0501111111", 1)
     user2 = User("M", 17, "elihav456", "Elihav", "0502222222", 2)
@@ -178,4 +180,5 @@ def main():
 
     if msg6.check_for_bad_words(group.get_forbidden_words()):
         print("⚠️ אזהרה: נמצאה מילה אסורה בהודעה!")
+    group = GroupChat("Movie Night", [user1, user2, user3], forbidden_list, "WhatsApp")
 main()
