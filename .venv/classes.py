@@ -35,6 +35,10 @@ class Message:
     def set_group_name(self, group_name):
         self.group_name = group_name
 
+    def check_for_bad_words(self, forbidden_words):
+        if any(word in self.content for word in forbidden_words):
+            return True
+        return False
 
 class GroupChat:
     def __init__(self, name, users, forbidden_words, social_media):
@@ -171,4 +175,7 @@ def main():
     msg6 = user3.send_message("די כבר אתם לא מחליטים! bad word", group.get_name())
     for message in messages:
         print(message)
+
+    if msg6.check_for_bad_words(group.get_forbidden_words()):
+        print("⚠️ אזהרה: נמצאה מילה אסורה בהודעה!")
 main()
